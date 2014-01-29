@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AutoTile", "AutoTile\AutoTile.vcproj", "{ADD57FD0-2DF4-4445-B221-B2C43D1AFCE4}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WarcraftAutoTile", "WarcraftAutoTile\WarcraftAutoTile.vcproj", "{238CA13D-CB1C-45F4-8C47-7ED3009BE4D0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ADD57FD0-2DF4-4445-B221-B2C43D1AFCE4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{ADD57FD0-2DF4-4445-B221-B2C43D1AFCE4}.Debug|Win32.Build.0 = Debug|Win32
+		{ADD57FD0-2DF4-4445-B221-B2C43D1AFCE4}.Release|Win32.ActiveCfg = Release|Win32
+		{ADD57FD0-2DF4-4445-B221-B2C43D1AFCE4}.Release|Win32.Build.0 = Release|Win32
+		{238CA13D-CB1C-45F4-8C47-7ED3009BE4D0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{238CA13D-CB1C-45F4-8C47-7ED3009BE4D0}.Debug|Win32.Build.0 = Debug|Win32
+		{238CA13D-CB1C-45F4-8C47-7ED3009BE4D0}.Release|Win32.ActiveCfg = Release|Win32
+		{238CA13D-CB1C-45F4-8C47-7ED3009BE4D0}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
