@@ -1,8 +1,8 @@
 /*
-** ������չʾһ�ּ򵥵��Զ���ͼԪ����ħ�����Ե�ͼ�༭����Ļ���ԭ��
-** ����ԭ�����Բο�ԭ�ģ�http://www.codeproject.com/KB/game/Autotiles_Algorithm.aspx#_comments
-** ʵ����һ���򵥵ĵ�ͼ�༭����������ƣ��Ҽ����
-** ���������ͼԪ����ͼƬ������ �� TILESET_TEX_FILE ����
+** 本代码展示一种简单的自动地图元件在魔兽争霸地图编辑器里的绘制原理
+** 基本原理可以参考原文：http://www.codeproject.com/KB/game/Autotiles_Algorithm.aspx#_comments
+** 实现了一个简单的地图编辑器，左键绘制，右键清除
+** 如需更换地图元件的图片，更改 宏 TILESET_TEX_FILE 即可
 **
 ** author : gouki04 2011-12-30
 */
@@ -13,38 +13,38 @@
 
 #define SAFE_DELETE(T) { if (T) { delete T; T = 0; } }
 
-#define TILEWIDTH 32.f      // ��ͼԪ����
-#define TILEHEIGHT 32.f     // ��ͼԪ����
+#define TILEWIDTH 32.f      // 地图元件宽
+#define TILEHEIGHT 32.f     // 地图元件高
 
-#define TILEWIDTH_2 (TILEWIDTH / 2)     // ��ͼԪ������һ��
-#define TILEHEIGHT_2 (TILEHEIGHT / 2)   // ��ͼԪ���ߵ�һ��
+#define TILEWIDTH_2 (TILEWIDTH / 2)     // 地图元件宽的一半
+#define TILEHEIGHT_2 (TILEHEIGHT / 2)   // 地图元件高的一半
 
-#define MAPROW 20   // ��ͼ����
-#define MAPCOL 20   // ��ͼ����
+#define MAPROW 20   // 地图行数
+#define MAPCOL 20   // 地图列数
 
-#define TILESET_TEX_FILE "easyTile.png"     // ��ͼԪ��ͼƬ
-#define HIGHLIGHT_TEX_FILE "highlight.png"  // ������ͼƬ
+#define TILESET_TEX_FILE "easyTile.png"     // 地图元件图片
+#define HIGHLIGHT_TEX_FILE "highlight.png"  // 高亮框图片
 
-#define MAP_LT_X 0  // ��ͼ���Ͻ�x����
-#define MAP_LT_Y 0  // ��ͼ���Ͻ�y����
+#define MAP_LT_X 0  // 地图左上角x坐标
+#define MAP_LT_Y 0  // 地图左上角y坐标
 
-// HGE����
+// HGE引擎
 HGE *hge = 0;   
 
-// ���ڿ��Ⱥ͸߶�
+// 窗口宽度和高度
 int screenWidth = static_cast<int>(MAP_LT_X + TILEWIDTH * MAPCOL);
 int screenHeight = static_cast<int>(MAP_LT_Y + TILEHEIGHT * MAPROW);
 
-// ����λ��
+// 高亮位置
 int highlight_row = -1, highlight_col = -1;
 
-// ������
+// 高亮框
 hgeSprite* highlight = 0;
 
-// 16����ͼԪ��
+// 16个地图元件
 hgeSprite* easyTiles[16];
 
-// ��ͼ����
+// 地图数据
 unsigned short easyMap[MAPROW][MAPCOL];
 
 void drawLines()
@@ -90,13 +90,13 @@ bool FrameFunc()
     if (hge->Input_GetKeyState(HGEK_ESCAPE)) 
         return true;
 
-    // �������״̬
+    // 更新鼠标状态
     float mx, my;
     hge->Input_GetMousePos(&mx, &my);
 
-    // ���¸���λ��
-    // ����ʱҪ����ǰλ�ü��ϰ��Tile��С����Ϊ����������
-    // ��������Ļ�ȥ��TILEWIDTH_2��TILEHEIGHT_2�����У��Ƚ�һ�¾ͺ�����ˣ�
+    // 更新高亮位置
+    // 计算时要将当前位置加上半个Tile大小，是为了四舍五入
+    // （不理解的话去掉TILEWIDTH_2和TILEHEIGHT_2后运行，比较一下就很清楚了）
     highlight_col = static_cast<int>((mx - MAP_LT_X + TILEWIDTH_2) / TILEWIDTH);
     highlight_row = static_cast<int>((my - MAP_LT_Y + TILEHEIGHT_2) / TILEHEIGHT);
 
@@ -110,7 +110,7 @@ bool FrameFunc()
             int r = highlight_row;
             int c = highlight_col;
 
-            // �����ĵ���Χ��4��С����Ϊ1
+            // 将中心点周围的4个小格填为1
 
             if (r > 0)
             {
@@ -132,7 +132,7 @@ bool FrameFunc()
             int r = highlight_row;
             int c = highlight_col;
 
-            // �����ĵ���Χ��4��С����Ϊ0
+            // 将中心点周围的4个小格填为0
 
             if (r > 0)
             {
@@ -156,13 +156,13 @@ bool RenderFunc()
     hge->Gfx_BeginScene();
     hge->Gfx_Clear(0xFFFFFFFF);
 
-    // ���Ƶ�ͼ
+    // 绘制地图
     drawEasyMap();
 
-    // ��������
+    // 绘制网格
     drawLines();
 
-    // ���Ƹ�����
+    // 绘制高亮框
     drawHighlight();
 
     hge->Gfx_EndScene();
@@ -172,18 +172,18 @@ bool RenderFunc()
 
 void loadContent()
 {
-    // ���ظ�����
+    // 加载高亮框
     HTEXTURE tex = hge->Texture_Load(HIGHLIGHT_TEX_FILE);
     highlight = new hgeSprite(tex, 0, 0, 32, 32);
 
-    // ���ڱ�ģʽ�¸�����Ҫ�����ڶ����ϣ�����
-    // ���������ê�㶨�����ģ�������λʱ����Ҫƫ�ư��tile��
+    // 由于本模式下高亮框要绘制在顶点上，所以
+    // 将高亮框的锚点定在中心，这样定位时不需要偏移半个tile了
     highlight->SetHotSpot(16, 16);
 
     highlight->SetColor(0x77FFFFFF);
 
-    // ���ص�ͼԪ��
-    // Ԫ�����Ϊ512*32
+    // 加载地图元件
+    // 元件规格为512*32
     tex = hge->Texture_Load(TILESET_TEX_FILE);
     for (int i = 0; i < 16; ++i)
     {

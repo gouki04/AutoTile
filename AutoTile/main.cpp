@@ -1,8 +1,8 @@
 /*
-** ±¾´úÂëÕ¹Ê¾Ò»ÖÖ¼òµ¥µÄ×Ô¶¯µØÍ¼Ôª¼şµÄ»æÖÆÔ­Àí
-** »ù±¾Ô­Àí¿ÉÒÔ²Î¿¼Ô­ÎÄ£ºhttp://www.codeproject.com/KB/game/Autotiles_Algorithm.aspx#_comments
-** ÊµÏÖÁËÒ»¸ö¼òµ¥µÄµØÍ¼±à¼­Æ÷£¬×ó¼ü»æÖÆ£¬ÓÒ¼üÇå³ı
-** ÈçĞè¸ü»»µØÍ¼Ôª¼şµÄÍ¼Æ¬£¬¸ü¸Ä ºê TILESET_TEX_FILE ¼´¿É
+** æœ¬ä»£ç å±•ç¤ºä¸€ç§ç®€å•çš„è‡ªåŠ¨åœ°å›¾å…ƒä»¶çš„ç»˜åˆ¶åŸç†
+** åŸºæœ¬åŸç†å¯ä»¥å‚è€ƒåŸæ–‡ï¼šhttp://www.codeproject.com/KB/game/Autotiles_Algorithm.aspx#_comments
+** å®ç°äº†ä¸€ä¸ªç®€å•çš„åœ°å›¾ç¼–è¾‘å™¨ï¼Œå·¦é”®ç»˜åˆ¶ï¼Œå³é”®æ¸…é™¤
+** å¦‚éœ€æ›´æ¢åœ°å›¾å…ƒä»¶çš„å›¾ç‰‡ï¼Œæ›´æ”¹ å® TILESET_TEX_FILE å³å¯
 **
 ** author : gouki04 2011-12-30
 */
@@ -13,35 +13,35 @@
 
 #define SAFE_DELETE(T) { if (T) { delete T; T = 0; } }
 
-#define TILEWIDTH 32.f      // µØÍ¼Ôª¼ş¿í
-#define TILEHEIGHT 32.f     // µØÍ¼Ôª¼ş¸ß
+#define TILEWIDTH 32.f      // åœ°å›¾å…ƒä»¶å®½
+#define TILEHEIGHT 32.f     // åœ°å›¾å…ƒä»¶é«˜
 
-#define MAPROW 16   // µØÍ¼ĞĞÊı
-#define MAPCOL 16   // µØÍ¼ÁĞÊı
+#define MAPROW 16   // åœ°å›¾è¡Œæ•°
+#define MAPCOL 16   // åœ°å›¾åˆ—æ•°
 
-#define TILESET_TEX_FILE "easyTile.png"     // µØÍ¼Ôª¼şÍ¼Æ¬
-#define HIGHLIGHT_TEX_FILE "highlight.png"  // ¸ßÁÁ¿òÍ¼Æ¬
+#define TILESET_TEX_FILE "easyTile.png"     // åœ°å›¾å…ƒä»¶å›¾ç‰‡
+#define HIGHLIGHT_TEX_FILE "highlight.png"  // é«˜äº®æ¡†å›¾ç‰‡
 
-#define MAP_LT_X 0  // µØÍ¼×óÉÏ½Çx×ø±ê
-#define MAP_LT_Y 0  // µØÍ¼×óÉÏ½Çy×ø±ê
+#define MAP_LT_X 0  // åœ°å›¾å·¦ä¸Šè§’xåæ ‡
+#define MAP_LT_Y 0  // åœ°å›¾å·¦ä¸Šè§’yåæ ‡
 
-// HGEÒıÇæ
+// HGEå¼•æ“
 HGE *hge = 0;   
 
-// ´°¿Ú¿í¶ÈºÍ¸ß¶È
+// çª—å£å®½åº¦å’Œé«˜åº¦
 int screenWidth = static_cast<int>(MAP_LT_X + TILEWIDTH * MAPCOL);
 int screenHeight = static_cast<int>(MAP_LT_Y + TILEHEIGHT * MAPROW);
 
-// ¸ßÁÁÎ»ÖÃ
+// é«˜äº®ä½ç½®
 int highlight_row = -1, highlight_col = -1;
 
-// ¸ßÁÁ¿ò
+// é«˜äº®æ¡†
 hgeSprite* highlight = 0;
 
-// 16¸öµØÍ¼Ôª¼ş
+// 16ä¸ªåœ°å›¾å…ƒä»¶
 hgeSprite* easyTiles[16];
 
-// µØÍ¼Êı¾İ
+// åœ°å›¾æ•°æ®
 typedef unsigned char TileType;
 TileType easyMap[MAPROW][MAPCOL];
 
@@ -88,11 +88,11 @@ bool FrameFunc()
     if (hge->Input_GetKeyState(HGEK_ESCAPE)) 
         return true;
 
-    // ¸üĞÂÊó±ê×´Ì¬
+    // æ›´æ–°é¼ æ ‡çŠ¶æ€
     float mx, my;
     hge->Input_GetMousePos(&mx, &my);
 
-    // ¸üĞÂ¸ßÁÁÎ»ÖÃ
+    // æ›´æ–°é«˜äº®ä½ç½®
     highlight_col = static_cast<int>((mx - MAP_LT_X) / TILEWIDTH);
     highlight_row = static_cast<int>((my - MAP_LT_Y) / TILEHEIGHT);
 
@@ -106,7 +106,7 @@ bool FrameFunc()
             int r = highlight_row;
             int c = highlight_col;
 
-            // ½«ÖĞĞÄµãÖÜÎ§µÄ16¸öĞ¡¸ñÌîÎª1
+            // å°†ä¸­å¿ƒç‚¹å‘¨å›´çš„16ä¸ªå°æ ¼å¡«ä¸º1
 
             if (r > 0)
             {
@@ -134,7 +134,7 @@ bool FrameFunc()
             int r = highlight_row;
             int c = highlight_col;
 
-            // ½«ÖĞĞÄµãÖÜÎ§µÄ16¸öĞ¡¸ñÌîÎª0
+            // å°†ä¸­å¿ƒç‚¹å‘¨å›´çš„16ä¸ªå°æ ¼å¡«ä¸º0
 
             if (r > 0)
             {
@@ -164,13 +164,13 @@ bool RenderFunc()
     hge->Gfx_BeginScene();
     hge->Gfx_Clear(0xFFFFFFFF);
 
-    // »æÖÆµØÍ¼
+    // ç»˜åˆ¶åœ°å›¾
     drawEasyMap();
 
-    // »æÖÆÍø¸ñ
+    // ç»˜åˆ¶ç½‘æ ¼
     drawLines();
 
-    // »æÖÆ¸ßÁÁ¿ò
+    // ç»˜åˆ¶é«˜äº®æ¡†
     drawHighlight();
 
     hge->Gfx_EndScene();
@@ -180,13 +180,13 @@ bool RenderFunc()
 
 void loadContent()
 {
-    // ¼ÓÔØ¸ßÁÁ¿ò
+    // åŠ è½½é«˜äº®æ¡†
     HTEXTURE tex = hge->Texture_Load(HIGHLIGHT_TEX_FILE);
     highlight = new hgeSprite(tex, 0, 0, 32, 32);
     highlight->SetColor(0x77FFFFFF);
 
-    // ¼ÓÔØµØÍ¼Ôª¼ş
-    // Ôª¼ş¹æ¸ñÎª512*32
+    // åŠ è½½åœ°å›¾å…ƒä»¶
+    // å…ƒä»¶è§„æ ¼ä¸º512*32
     tex = hge->Texture_Load(TILESET_TEX_FILE);
     for (int i = 0; i < 16; ++i)
     {
